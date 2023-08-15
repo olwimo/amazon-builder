@@ -16,8 +16,12 @@ RUN dnf install --allowerasing -y findutils unzip \
     && find /tmp/features -type f -exec chmod +x \{\} \; \
     && for x in {0..9}; do for d in /tmp/features/$x-*; do if [ -d "$d" ]; then cd "$d" ; ./install.sh ; fi ; done ; done \
     && curl -k -L https://github.com/jgm/pandoc/releases/latest | tr '\n' '\t' | sed -E -e 's#^.+https://github.com/jgm/pandoc/releases/tag/([0-9\.]*).+$#\1#' | ( read ver ; curl -k -L "https://github.com/jgm/pandoc/releases/download/$ver/pandoc-$ver-linux-amd64.tar.gz" ) | tar xvzf - --strip-components 1 -C /usr/local/ \
-    && curl -k -L https://wkhtmltopdf.org/downloads.html | tr '\n' '\t' | sed -E -e 's#^.+https://github.com/wkhtmltopdf/packaging/releases/download/([0-9\.\-]+)/wkhtmltox\-[0-9\.\-]+\.amazonlinux2\.x86_64\.rpm.+$#\1#' | ( read ver ; curl -k -L -o /tmp/wkhtmltox.rpm "https://github.com/wkhtmltopdf/packaging/releases/download/$ver/wkhtmltox-$ver.amazonlinux2.x86_64.rpm" ) \
+    # && curl -k -L https://wkhtmltopdf.org/downloads.html | tr '\n' '\t' | sed -E -e 's#^.+https://github.com/wkhtmltopdf/packaging/releases/download/([0-9\.\-]+)/wkhtmltox\-[0-9\.\-]+\.amazonlinux2\.x86_64\.rpm.+$#\1#' | ( read ver ; curl -k -L -o /tmp/wkhtmltox.rpm "https://github.com/wkhtmltopdf/packaging/releases/download/$ver/wkhtmltox-$ver.amazonlinux2.x86_64.rpm" ) \
+    && curl -k -L https://wkhtmltopdf.org/downloads.html | tr '\n' '\t' | sed -E -e 's#^.+https://github.com/wkhtmltopdf/packaging/releases/download/([0-9\.\-]+)/wkhtmltox\-[0-9\.\-]+\.almalinux9.x86_64.rpm.+$#\1#' | ( read ver ; curl -k -L -o /tmp/wkhtmltox.rpm "https://github.com/wkhtmltopdf/packaging/releases/download/$ver/wkhtmltox-$ver.almalinux9.x86_64.rpm" ) \
     && dnf install --allowerasing -y /tmp/wkhtmltox.rpm \
+    # && ln -sf /usr/lib64/libpng16.so.16 /usr/lib64/libpng15.so.15 \
+    # && ln -sf /usr/lib64/libssl.so.3 /usr/lib64/libssl.so.10 \
+    # && ln -sf /usr/lib64/libcrypto.so.3 /usr/lib64/libcrypto.so.10 \
     && cd /tmp && rm -rf /tmp/*
 
 USER codespace

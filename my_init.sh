@@ -9,9 +9,9 @@ set -e
 
 # # export PATH=${GRAALVM_HOME}/bin:$PATH
 
-# export DB_PASSWORD="$(cat ${DB_PASSWORD_FILE})"
+# [ -f "${DB_PASSWORD_FILE}" ] && export DB_PASSWORD="$(cat ${DB_PASSWORD_FILE})"
 
-# export CLT_SECRET="$(cat ${CLT_SECRET_FILE})"
+# [ -f "${CLT_SECRET_FILE}" ] && export CLT_SECRET="$(cat ${CLT_SECRET_FILE})"
 
 set +e
 exec "$@"
